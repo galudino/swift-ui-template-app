@@ -10,7 +10,9 @@ import SwiftUI
 struct PatientDashboard: View {
     @Environment(PatientRouter.self) private var router
     @Environment(ModelData.self) private var modelData
-
+    
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         Text("Select an option to begin.")
         

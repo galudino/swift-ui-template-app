@@ -22,7 +22,7 @@ struct DoctorCreate: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack {
             Form {
                 textFieldSection
                 confirmNewDoctorButton
