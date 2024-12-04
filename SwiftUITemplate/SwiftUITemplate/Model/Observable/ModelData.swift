@@ -15,9 +15,9 @@ class ModelData {
     var patients: [Patient] = []
     var doctors: [Doctor] = []
     
-    private var networkService: NetworkServiceProtocol
+    private var networkService: FakeNetworkService
     
-    init(networkService: NetworkServiceProtocol) {
+    init(networkService: FakeNetworkService) {
         self.networkService = networkService
     }
 }
