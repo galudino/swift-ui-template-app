@@ -8,30 +8,96 @@
 import Foundation
 import SwiftUI
 
+// MARK: - ConnectingState
+
+enum ConnectingState {
+    case idle
+    case connecting
+    case successful
+    case error
+}
+
+// MARK: - Connecting
+
 struct Connecting: View {
+    @Environment(FakeNetworkService.self) private var networkService
+    @Environment(AuthenticationData.self) private var authenticationData
     @Environment(LoginRouter.self) private var router
+
     @Environment(\.dismiss) private var dismiss
-    
-    var credentials: LoginCredentials
-    
+
+    @State private var statusLabelText: String = ""
+
+    @State private var showAlert = false
+    @State private var connectingState: ConnectingState = .idle {
+        didSet {
+            switch connectingState {
+            case .idle:
+                statusLabelText = "On standby."
+                showAlert = false
+            case .connecting:
+                statusLabelText = "Connecting. Please wait..."
+                showAlert = false
+            case .successful:
+                statusLabelText = "Authentication successful!"
+                showAlert = false
+
+                authenticationData.loginPresented = false
+            case .error:
+                statusLabelText = "Error occurred."
+                showAlert = true
+
+                authenticationData.loginPresented = true
+                authenticationData.tabViewPresented = false
+            }
+        }
+    }
+
+    private let enteredLoginCredentials: LoginCredentials
+
+    init(credentials: LoginCredentials) {
+        enteredLoginCredentials = credentials
+    }
+
     var body: some View {
         VStack {
-            Text("Please wait...")
+            ProgressView()
+            Text(statusLabelText)
             cancelButton
         }
         .navigationTitle("Connecting...")
         .navigationBarBackButtonHidden()
         .onAppear {
-            // Check credentials here
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 100000)) {
-                
+            @Bindable var authenticationData = authenticationData
+
+            connectingState = .connecting
+
+            Task { @MainActor in
+                let (status, credentials) = try await networkService.connect(withCredentials: enteredLoginCredentials)
+
+                if status == .authenticated, let credentials {
+                    connectingState = .successful
+                    authenticationData.loginCredentials = credentials
+                } else if status == .connectedButUnauthenticated {
+                    connectingState = .error
+                }
             }
         }
+        .onDisappear {
+            authenticationData.tabViewPresented = connectingState == .successful
+        }
+        .alert("Error", isPresented: $showAlert, actions: {
+            Button("OK") {
+                router.pop()
+            }
+        }, message: {
+            Text("Authentication was unsuccessful. Please try again.")
+        })
     }
-    
+
     private var cancelButton: some View {
         Button(action: {
-            //router.pop()
+            router.pop()
         }, label: {
             Text("Cancel")
                 .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
@@ -43,6 +109,8 @@ struct Connecting: View {
 }
 
 #Preview {
-    Connecting(credentials: LoginCredentials(userName: "John Doe", password: "password"))
+    Connecting(credentials: LoginCredentials.previews[0])
+        .environment(FakeNetworkService())
+        .environment(AuthenticationData())
         .environment(LoginRouter())
 }

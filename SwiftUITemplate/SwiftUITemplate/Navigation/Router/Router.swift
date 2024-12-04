@@ -22,8 +22,15 @@ protocol Router {
 }
 
 extension Router {
-    @MainActor
-    @ViewBuilder
+    
+    /// Invokes the `destination` property for an `R` (`Route`)
+    /// and returns a `View`. Should only be called inside a `NavigationStack`.
+    ///
+    /// - Parameter route: the `R` (`Route`) that holds the `destination` (`View`)
+    /// to be returned
+    ///
+    /// - Returns: a `View` from an `R` (`Route`)
+    @MainActor @ViewBuilder
     func navigate(to route: R) -> some View {
         route.destination
     }

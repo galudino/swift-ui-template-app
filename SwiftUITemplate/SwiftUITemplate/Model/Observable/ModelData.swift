@@ -13,23 +13,12 @@ import SwiftUI
 class ModelData {
     var patients: [Patient] = []
     var doctors: [Doctor] = []
-    
+
     init() {
         loadPatients()
         loadDoctors()
     }
-    
-    var doctorsGroupedByDepartmentSortedByLastNameAscending: [String: [Doctor]] {
-        Dictionary(grouping: doctors.sorted(by: { $0.lastName < $1.lastName }),
-                   by: { $0.department })
-    }
-    
-    var doctorDepartmentsSortedAscending: [String] {
-        doctorsGroupedByDepartmentSortedByLastNameAscending.map(\.key).sorted(by: {
-            $0 < $1
-        })
-    }
-    
+
     private func loadPatients() {
         #if targetEnvironment(simulator)
             patients = Patient.previews
@@ -45,7 +34,22 @@ class ModelData {
             // Load real assets
         #endif
     }
+}
 
+extension ModelData {
+    var doctorsGroupedByDepartmentSortedByLastNameAscending: [String: [Doctor]] {
+        Dictionary(grouping: doctors.sorted(by: { $0.lastName < $1.lastName }),
+                   by: { $0.department })
+    }
+
+    var doctorDepartmentsSortedAscending: [String] {
+        doctorsGroupedByDepartmentSortedByLastNameAscending.map(\.key).sorted(by: {
+            $0 < $1
+        })
+    }
+}
+
+extension ModelData {
     func addPatient(_ patient: Patient) {
         guard !patients.contains(patient) else {
             return

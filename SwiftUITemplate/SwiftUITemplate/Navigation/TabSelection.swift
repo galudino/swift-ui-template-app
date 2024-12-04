@@ -12,6 +12,7 @@ import SwiftUI
 enum TabSelection: Hashable, Identifiable, CaseIterable {
     case patientDashboard
     case doctorDashboard
+    case settings
     
     var id: Self { self }
 
@@ -23,6 +24,8 @@ enum TabSelection: Hashable, Identifiable, CaseIterable {
             Label("Patients", systemImage: "person.3.fill")
         case .doctorDashboard:
             Label("Doctors", systemImage: "cross.fill")
+        case .settings:
+            Label("Settings", systemImage: "gear")
         }
     }
 
@@ -34,6 +37,8 @@ enum TabSelection: Hashable, Identifiable, CaseIterable {
             PatientNavigationStack()
         case .doctorDashboard:
             DoctorNavigationStack()
+        case .settings:
+            SettingsNavigationStack()
         }
     }
 }

@@ -8,6 +8,6 @@
 import Foundation
 
 struct LoginCredentials: Hashable {
-    let userName: String
-    let password: String
+    var userName: String
+    var password: String
 }
