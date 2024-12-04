@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Settings: View {
     @Environment(FakeNetworkService.self) private var networkService
-    @Environment(AuthenticationData.self) private var authenticationData
+    @Environment(LoginPresentationState.self) private var authenticationData
     @Environment(SettingsRouter.self) private var router
     
     var body: some View {
@@ -52,6 +52,6 @@ struct Settings: View {
 #Preview {
     Settings()
         .environment(FakeNetworkService())
-        .environment(AuthenticationData())
+        .environment(LoginPresentationState())
         .environment(SettingsRouter())
 }

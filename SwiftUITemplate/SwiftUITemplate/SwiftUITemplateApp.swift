@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct SwiftUITemplateApp: App {
     @State private var networkService = FakeNetworkService()
-    @State private var authenticationData = AuthenticationData()
+    @State private var authenticationData = LoginPresentationState()
     @State private var modelData = ModelData()
     
     var body: some Scene {

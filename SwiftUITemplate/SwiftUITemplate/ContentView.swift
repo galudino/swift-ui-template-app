@@ -9,7 +9,7 @@ import SwiftUI
 import Observation
 
 struct ContentView: View {
-    @Environment(AuthenticationData.self) private var authenticationData
+    @Environment(LoginPresentationState.self) private var authenticationData
     
     @State private var selection: TabSelection?
 
@@ -47,6 +47,6 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environment(FakeNetworkService())
-        .environment(AuthenticationData())
+        .environment(LoginPresentationState())
         .environment(ModelData())
 }

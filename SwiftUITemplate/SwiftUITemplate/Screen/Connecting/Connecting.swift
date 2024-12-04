@@ -21,7 +21,7 @@ enum ConnectingState {
 
 struct Connecting: View {
     @Environment(FakeNetworkService.self) private var networkService
-    @Environment(AuthenticationData.self) private var authenticationData
+    @Environment(LoginPresentationState.self) private var authenticationData
     @Environment(LoginRouter.self) private var router
 
     @Environment(\.dismiss) private var dismiss
@@ -77,7 +77,7 @@ struct Connecting: View {
 
                 if status == .authenticated, let credentials {
                     connectingState = .successful
-                    authenticationData.loginCredentials = credentials
+                    authenticationData.credentials = credentials
                 } else if status == .connectedButUnauthenticated {
                     connectingState = .error
                 }
@@ -111,6 +111,6 @@ struct Connecting: View {
 #Preview {
     Connecting(credentials: LoginCredentials.previews[0])
         .environment(FakeNetworkService())
-        .environment(AuthenticationData())
+        .environment(LoginPresentationState())
         .environment(LoginRouter())
 }
