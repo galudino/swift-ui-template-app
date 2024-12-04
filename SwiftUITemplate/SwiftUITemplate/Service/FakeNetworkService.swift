@@ -27,7 +27,6 @@ class FakeNetworkService: NetworkServiceProtocol {
         }
         
         status = .authenticated
-        
         return (status, credentials)
     }
     

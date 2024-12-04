@@ -23,11 +23,19 @@ struct DoctorCreate: View {
     var body: some View {
         VStack {
             Form {
+                headingText
                 textFieldSection
                 confirmNewDoctorButton
             }
         }
         .navigationTitle("Add New Doctor")
+    }
+    
+    private var headingText: some View {
+        Text("Add New Doctor")
+            .listRowBackground(Rectangle().fill(.clear))
+            .font(.title)
+            .bold()
     }
 
     private var textFieldSection: some View {

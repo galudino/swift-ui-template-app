@@ -34,11 +34,8 @@ struct ContentView: View {
 
     private var loginNavigationStack: some View {
         @Bindable var loginPresentationState = loginPresentationState
-
-        return VStack {
-            // Blank view ensures we do not see the `TabView`
-            // before fully authenticated.
-        }
+        
+        return EmptyView()
         .fullScreenCover(isPresented: $loginPresentationState.presentLoginFullScreenCover) {
             LoginNavigationStack()
         }

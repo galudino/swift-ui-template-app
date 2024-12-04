@@ -11,10 +11,19 @@ struct Settings: View {
     @Environment(FakeNetworkService.self) private var networkService
     @Environment(LoginPresentationState.self) private var loginPresentationState
     @Environment(SettingsRouter.self) private var router
+   
+    @State private var loggingOut = false
     
     var body: some View {
         VStack {
-            Text("Click to log out.")
+            if loggingOut {
+                HStack {
+                    ProgressView()
+                    Text("Logging out...")
+                }
+            } else {
+                Text("Click to log out.")
+            }
             logOutButton
         }
         .navigationTitle("Settings")
@@ -37,6 +46,7 @@ struct Settings: View {
     private var logOutButton: some View {
         Button(action: {
             Task { @MainActor in
+                loggingOut = true
                 _ = try await networkService.disconnect()
                 loginPresentationState.tabViewVisible = false
             }
