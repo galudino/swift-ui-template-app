@@ -12,8 +12,28 @@ import SwiftUI
 
 @Observable
 class ModelData {
-    var patients: [Patient] = []
-    var doctors: [Doctor] = []
+    private(set) var patients: [Patient] = []
+    private(set) var doctors: [Doctor] = []
+    
+    private let networkService: FakeNetworkService
+    
+    init(networkService: FakeNetworkService) {
+        self.networkService = networkService
+    }
+}
+
+extension ModelData {
+    @MainActor
+    func fetchDoctors() async throws {
+        doctors = try await networkService.fetchDoctors()
+        doctors.sort(by: { $0.lastName < $1.lastName })
+    }
+    
+    @MainActor
+    func fetchPatients() async throws {
+        patients = try await networkService.fetchPatients()
+        patients.sort(by: { $0.lastName < $1.lastName })
+    }
 }
 
 extension ModelData {

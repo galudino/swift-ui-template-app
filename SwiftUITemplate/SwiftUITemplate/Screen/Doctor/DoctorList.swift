@@ -38,8 +38,7 @@ struct DoctorList: View {
             if doLoad {
                 Task { @MainActor in
                     isLoading = true
-                    modelData.doctors = try await networkService.fetchDoctors()
-                    modelData.doctors.sort(by: { $0.lastName < $1.lastName })
+                    try await modelData.fetchDoctors()
                     isLoading = false
                 }
             }
@@ -48,9 +47,8 @@ struct DoctorList: View {
             Task { @MainActor in
                 isLoading = true
                 isRefreshing = true
-                
-                modelData.doctors = try await networkService.fetchDoctors()
-                modelData.doctors.sort(by: { $0.lastName < $1.lastName })
+                    
+                try await modelData.fetchDoctors()
                
                 isRefreshing = false
                 isLoading = false
@@ -98,5 +96,5 @@ struct DoctorList: View {
     DoctorList()
         .environment(FakeNetworkService())
         .environment(DoctorRouter())
-        .environment(ModelData())
+        .environment(ModelData(networkService: FakeNetworkService()))
 }

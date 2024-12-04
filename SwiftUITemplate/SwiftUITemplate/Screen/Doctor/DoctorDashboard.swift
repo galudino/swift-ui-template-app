@@ -37,5 +37,5 @@ struct DoctorDashboard: View {
     DoctorDashboard()
         .environment(FakeNetworkService())
         .environment(DoctorRouter())
-        .environment(ModelData())
+        .environment(ModelData(networkService: FakeNetworkService()))
 }
