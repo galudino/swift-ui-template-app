@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PatientList: View {
     @Environment(FakeNetworkService.self) private var networkService
-    @Environment(PatientRouter.self) private var router
+    @Environment(Router<PatientRoute>.self) private var router
     @Environment(ModelData.self) private var modelData
 
     @State private var presentAddPatientSheet = false
@@ -86,6 +86,6 @@ struct PatientList: View {
 #Preview {
     PatientList()
         .environment(FakeNetworkService())
-        .environment(PatientRouter())
+        .environment(Router<PatientRoute>())
         .environment(ModelData(networkService: FakeNetworkService()))
 }

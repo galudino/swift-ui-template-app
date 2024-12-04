@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Login: View {
-    @Environment(LoginRouter.self) private var router
+    @Environment(Router<LoginRoute>.self) private var router
 
     @State private var enteredUserName = ""
     @State private var enteredPassword = ""
@@ -70,5 +70,5 @@ struct Login: View {
 
 #Preview {
     Login()
-        .environment(LoginRouter())
+        .environment(Router<LoginRoute>())
 }

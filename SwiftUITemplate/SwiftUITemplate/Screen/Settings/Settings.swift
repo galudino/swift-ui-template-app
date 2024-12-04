@@ -10,7 +10,7 @@ import SwiftUI
 struct Settings: View {
     @Environment(FakeNetworkService.self) private var networkService
     @Environment(LoginPresentationState.self) private var loginPresentationState
-    @Environment(SettingsRouter.self) private var router
+    @Environment(Router<SettingsRoute>.self) private var router
    
     @State private var loggingOut = false
     
@@ -63,5 +63,5 @@ struct Settings: View {
     Settings()
         .environment(FakeNetworkService())
         .environment(LoginPresentationState())
-        .environment(SettingsRouter())
+        .environment(Router<SettingsRoute>())
 }

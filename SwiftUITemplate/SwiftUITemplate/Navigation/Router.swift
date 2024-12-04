@@ -7,8 +7,13 @@
 
 import SwiftUI
 
+protocol Route: Hashable {
+    associatedtype V: View
+    var destination: V { get }
+}
+
 @preconcurrency
-protocol Router {
+protocol RouterProtocol {
     associatedtype V: View
     associatedtype R: Route
     
@@ -21,7 +26,7 @@ protocol Router {
     mutating func popToRoot()
 }
 
-extension Router {
+extension RouterProtocol {
     
     /// Invokes the `destination` property for an `R` (`Route`)
     /// and returns a `View`. Should only be called inside a `NavigationStack`.
@@ -33,5 +38,28 @@ extension Router {
     @MainActor @ViewBuilder
     func navigate(to route: R) -> some View {
         route.destination
+    }
+}
+
+@Observable
+class Router<T: Route>: @preconcurrency RouterProtocol {
+    var routes: [T] = []
+    
+    @MainActor
+    @ViewBuilder
+    func navigate(to route: T) -> some View {
+        route.destination
+    }
+    
+    func push(_ route: T) {
+        routes.append(route)
+    }
+    
+    func pop() {
+        routes.removeLast()
+    }
+    
+    func popToRoot() {
+        routes.removeLast(routes.count)
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoginNavigationStack: View {
-    @State private var router = LoginRouter()
+    @State private var router = Router<LoginRoute>()
     
     var body: some View {
         NavigationStack(path: $router.routes) {
@@ -18,29 +18,6 @@ struct LoginNavigationStack: View {
                 }
         }
         .environment(router)
-    }
-}
-
-@Observable
-class LoginRouter: @preconcurrency Router {
-    var routes: [LoginRoute] = []
-    
-    @MainActor
-    @ViewBuilder
-    func navigate(to route: LoginRoute) -> some View {
-        route.destination
-    }
-    
-    func push(_ route: LoginRoute) {
-        routes.append(route)
-    }
-    
-    func pop() {
-        routes.removeLast()
-    }
-    
-    func popToRoot() {
-        routes.removeLast(routes.count)
     }
 }
 

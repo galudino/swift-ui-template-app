@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DoctorNavigationStack: View {
-    @State private var router = DoctorRouter()
+    @State private var router = Router<DoctorRoute>()
 
     var body: some View {
         NavigationStack(path: $router.routes) {
@@ -18,29 +18,6 @@ struct DoctorNavigationStack: View {
                 }
         }
         .environment(router)
-    }
-}
-
-@Observable
-class DoctorRouter: @preconcurrency Router {
-    var routes: [DoctorRoute] = []
-    
-    @MainActor
-    @ViewBuilder
-    func navigate(to route: DoctorRoute) -> some View {
-        route.destination
-    }
-    
-    func push(_ route: DoctorRoute) {
-        routes.append(route)
-    }
-    
-    func pop() {
-        routes.removeLast()
-    }
-    
-    func popToRoot() {
-        routes.removeLast(routes.count)
     }
 }
 

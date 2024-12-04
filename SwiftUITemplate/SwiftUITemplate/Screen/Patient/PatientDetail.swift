@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PatientDetail: View {
-    @Environment(PatientRouter.self) private var router
+    @Environment(Router<PatientRoute>.self) private var router
     @Environment(ModelData.self) private var modelData
     
     @State private var presentRemovePatientAlert = false
@@ -74,6 +74,6 @@ struct PatientDetail: View {
 
 #Preview {
     PatientDetail(patient: Patient(firstName: "Gem", lastName: "Aludino", id: 7777))
-        .environment(PatientRouter())
+        .environment(Router<PatientRoute>())
         .environment(ModelData(networkService: FakeNetworkService()))
 }

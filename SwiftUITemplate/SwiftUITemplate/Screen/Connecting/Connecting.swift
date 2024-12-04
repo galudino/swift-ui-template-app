@@ -22,7 +22,7 @@ enum ConnectingState {
 struct Connecting: View {
     @Environment(FakeNetworkService.self) private var networkService
     @Environment(LoginPresentationState.self) private var loginPresentationState
-    @Environment(LoginRouter.self) private var router
+    @Environment(Router<LoginRoute>.self) private var router
 
     @Environment(\.dismiss) private var dismiss
 
@@ -111,5 +111,5 @@ struct Connecting: View {
     Connecting(credentials: LoginCredentials(userName: "Admin", password: "1234"))
         .environment(FakeNetworkService())
         .environment(LoginPresentationState())
-        .environment(LoginRouter())
+        .environment(Router<LoginRoute>())
 }
