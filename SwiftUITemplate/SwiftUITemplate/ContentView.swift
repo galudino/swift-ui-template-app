@@ -45,5 +45,5 @@ struct ContentView: View {
     ContentView()
         .environment(FakeNetworkService())
         .environment(LoginPresentationState())
-        .environment(ModelData(networkService: FakeNetworkService()))
+        .environment(ModelData())
 }

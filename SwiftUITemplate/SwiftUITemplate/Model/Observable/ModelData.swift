@@ -14,12 +14,6 @@ import SwiftUI
 class ModelData {
     var patients: [Patient] = []
     var doctors: [Doctor] = []
-    
-    private var networkService: FakeNetworkService
-    
-    init(networkService: FakeNetworkService) {
-        self.networkService = networkService
-    }
 }
 
 extension ModelData {

@@ -9,18 +9,9 @@ import SwiftUI
 
 @main
 struct SwiftUITemplateApp: App {
-    @State private var networkService: FakeNetworkService
-    @State private var loginPresentationState: LoginPresentationState
-    @State private var modelData: ModelData
-    
-    
-    init() {
-        let service = FakeNetworkService()
-        
-        networkService = service
-        loginPresentationState = LoginPresentationState()
-        modelData = ModelData(networkService: service)
-    }
+    @State private var networkService = FakeNetworkService()
+    @State private var loginPresentationState = LoginPresentationState()
+    @State private var modelData = ModelData()
     
     var body: some Scene {
         WindowGroup {

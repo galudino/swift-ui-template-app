@@ -39,5 +39,5 @@ struct PatientDashboard: View {
     PatientDashboard()
         .environment(FakeNetworkService())
         .environment(PatientRouter())
-        .environment(ModelData(networkService: FakeNetworkService()))
+        .environment(ModelData())
 }

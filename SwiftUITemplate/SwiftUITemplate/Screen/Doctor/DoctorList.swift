@@ -98,5 +98,5 @@ struct DoctorList: View {
     DoctorList()
         .environment(FakeNetworkService())
         .environment(DoctorRouter())
-        .environment(ModelData(networkService: FakeNetworkService()))
+        .environment(ModelData())
 }

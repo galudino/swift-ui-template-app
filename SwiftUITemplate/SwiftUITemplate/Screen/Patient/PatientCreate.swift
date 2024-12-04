@@ -72,5 +72,5 @@ struct PatientCreate: View {
 
 #Preview {
     PatientCreate()
-        .environment(ModelData(networkService: FakeNetworkService()))
+        .environment(ModelData())
 }

@@ -75,5 +75,5 @@ struct PatientDetail: View {
 #Preview {
     PatientDetail(patient: Patient(firstName: "Gem", lastName: "Aludino", id: 7777))
         .environment(PatientRouter())
-        .environment(ModelData(networkService: FakeNetworkService()))
+        .environment(ModelData())
 }
