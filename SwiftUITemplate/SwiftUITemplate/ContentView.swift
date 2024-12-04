@@ -9,12 +9,12 @@ import SwiftUI
 import Observation
 
 struct ContentView: View {
-    @Environment(LoginPresentationState.self) private var authenticationData
+    @Environment(LoginPresentationState.self) private var loginPresentationState
     
     @State private var selection: TabSelection?
 
     var body: some View {
-        if authenticationData.tabViewPresented {
+        if loginPresentationState.tabViewPresented {
             mainTabView
         } else {
             loginNavigationStack
@@ -32,13 +32,13 @@ struct ContentView: View {
     }
     
     private var loginNavigationStack: some View {
-        @Bindable var authenticationData = authenticationData
+        @Bindable var loginPresentationState = loginPresentationState
         
         return VStack {
             /// Blank view ensures we do not see the `TabView`
             /// before fully authenticated.
         }
-        .fullScreenCover(isPresented: $authenticationData.loginPresented) {
+        .fullScreenCover(isPresented: $loginPresentationState.loginPresented) {
             LoginNavigationStack()
         }
     }

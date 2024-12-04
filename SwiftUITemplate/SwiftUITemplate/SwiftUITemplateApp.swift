@@ -10,14 +10,14 @@ import SwiftUI
 @main
 struct SwiftUITemplateApp: App {
     @State private var networkService = FakeNetworkService()
-    @State private var authenticationData = LoginPresentationState()
+    @State private var loginPresentationState = LoginPresentationState()
     @State private var modelData = ModelData()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(networkService)
-                .environment(authenticationData)
+                .environment(loginPresentationState)
                 .environment(modelData)
         }
     }

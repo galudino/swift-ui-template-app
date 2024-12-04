@@ -21,7 +21,7 @@ enum ConnectingState {
 
 struct Connecting: View {
     @Environment(FakeNetworkService.self) private var networkService
-    @Environment(LoginPresentationState.self) private var authenticationData
+    @Environment(LoginPresentationState.self) private var loginPresentationState
     @Environment(LoginRouter.self) private var router
 
     @Environment(\.dismiss) private var dismiss
@@ -42,13 +42,13 @@ struct Connecting: View {
                 statusLabelText = "Authentication successful!"
                 showAlert = false
 
-                authenticationData.loginPresented = false
+                loginPresentationState.loginPresented = false
             case .error:
                 statusLabelText = "Error occurred."
                 showAlert = true
 
-                authenticationData.loginPresented = true
-                authenticationData.tabViewPresented = false
+                loginPresentationState.loginPresented = true
+                loginPresentationState.tabViewPresented = false
             }
         }
     }
@@ -68,7 +68,7 @@ struct Connecting: View {
         .navigationTitle("Connecting...")
         .navigationBarBackButtonHidden()
         .onAppear {
-            @Bindable var authenticationData = authenticationData
+            @Bindable var loginPresentationState = loginPresentationState
 
             connectingState = .connecting
 
@@ -77,14 +77,14 @@ struct Connecting: View {
 
                 if status == .authenticated, let credentials {
                     connectingState = .successful
-                    authenticationData.credentials = credentials
+                    loginPresentationState.credentials = credentials
                 } else if status == .connectedButUnauthenticated {
                     connectingState = .error
                 }
             }
         }
         .onDisappear {
-            authenticationData.tabViewPresented = connectingState == .successful
+            loginPresentationState.tabViewPresented = connectingState == .successful
         }
         .alert("Error", isPresented: $showAlert, actions: {
             Button("OK") {

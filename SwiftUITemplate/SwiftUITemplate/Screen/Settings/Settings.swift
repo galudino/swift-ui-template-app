@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Settings: View {
     @Environment(FakeNetworkService.self) private var networkService
-    @Environment(LoginPresentationState.self) private var authenticationData
+    @Environment(LoginPresentationState.self) private var loginPresentationState
     @Environment(SettingsRouter.self) private var router
     
     var body: some View {
@@ -19,7 +19,7 @@ struct Settings: View {
         }
         .navigationTitle("Settings")
         .onDisappear {
-            authenticationData.loginPresented = !authenticationData.tabViewPresented
+            loginPresentationState.loginPresented = !loginPresentationState.tabViewPresented
         }
     }
     
@@ -38,7 +38,7 @@ struct Settings: View {
         Button(action: {
             Task { @MainActor in
                 try await networkService.disconnect()
-                authenticationData.tabViewPresented = false
+                loginPresentationState.tabViewPresented = false
             }
         }, label: {
             logOutButtonLabel
