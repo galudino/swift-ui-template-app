@@ -28,27 +28,27 @@ struct Connecting: View {
 
     @State private var statusLabelText: String = ""
 
-    @State private var showAlert = false
+    @State private var presentAuthenticationAlert = false
     @State private var connectingState: ConnectingState = .idle {
         didSet {
             switch connectingState {
             case .idle:
                 statusLabelText = "On standby."
-                showAlert = false
+                presentAuthenticationAlert = false
             case .connecting:
                 statusLabelText = "Connecting. Please wait..."
-                showAlert = false
+                presentAuthenticationAlert = false
             case .successful:
                 statusLabelText = "Authentication successful!"
-                showAlert = false
+                presentAuthenticationAlert = false
 
-                loginPresentationState.loginPresented = false
+                loginPresentationState.presentLoginFullScreenCover = false
             case .error:
                 statusLabelText = "Error occurred."
-                showAlert = true
+                presentAuthenticationAlert = true
 
-                loginPresentationState.loginPresented = true
-                loginPresentationState.tabViewPresented = false
+                loginPresentationState.presentLoginFullScreenCover = true
+                loginPresentationState.tabViewVisible = false
             }
         }
     }
@@ -83,9 +83,9 @@ struct Connecting: View {
             }
         }
         .onDisappear {
-            loginPresentationState.tabViewPresented = connectingState == .successful
+            loginPresentationState.tabViewVisible = connectingState == .successful
         }
-        .alert("Error", isPresented: $showAlert, actions: {
+        .alert("Error", isPresented: $presentAuthenticationAlert, actions: {
             Button("OK") {
                 router.pop()
             }

@@ -12,7 +12,7 @@ struct PatientList: View {
     @Environment(PatientRouter.self) private var router
     @Environment(ModelData.self) private var modelData
 
-    @State private var presentAddPatientModal = false
+    @State private var presentAddPatientSheet = false
 
     @State private var isLoading = false
     @State private var isRefreshing = false
@@ -31,9 +31,7 @@ struct PatientList: View {
         .navigationTitle("Patient List")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Add New Patient") {
-                    router.push(.create)
-                }
+                addNewPatientButton
             }
         }
         .onAppear {
@@ -60,17 +58,15 @@ struct PatientList: View {
                 isLoading = false
             }
         }
-        .sheet(isPresented: $presentAddPatientModal) {
+        .sheet(isPresented: $presentAddPatientSheet) {
             PatientCreate()
         }
     }
 
     private var patientList: some View {
-        @Bindable var modelData = modelData
-
-        return List {
+        List {
             Section(content: {
-                ForEach($modelData.patients, id: \.self) { $patient in
+                ForEach(modelData.patients, id: \.self) { patient in
                     Button("\(patient.lastName), \(patient.firstName)") {
                         /// Ensures we don't load again when navigating back
                         doLoad = false
@@ -86,7 +82,7 @@ struct PatientList: View {
 
     private var addNewPatientButton: some View {
         Button("Add New Patient") {
-            presentAddPatientModal.toggle()
+            presentAddPatientSheet.toggle()
         }
     }
 }

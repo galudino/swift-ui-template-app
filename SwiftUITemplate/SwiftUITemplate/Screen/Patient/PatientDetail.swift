@@ -11,6 +11,8 @@ struct PatientDetail: View {
     @Environment(PatientRouter.self) private var router
     @Environment(ModelData.self) private var modelData
     
+    @State private var presentRemovePatientAlert = false
+    
     private let patient: Patient
 
     init(patient: Patient) {
@@ -24,6 +26,15 @@ struct PatientDetail: View {
                 removePatientButton
             }
         }
+        .navigationTitle("Patient Detail")
+        .alert("Remove Patient: \(patient.lastName), \(patient.firstName)",
+               isPresented: $presentRemovePatientAlert,
+               actions: {
+                   Button("Yes", role: .destructive, action: removePatientAndNavigateBack)
+                   Button("Cancel", role: .cancel, action: {})
+               }, message: {
+                   Text("Are you sure you want to remove this patient?")
+               })
     }
     
     var patientListRowSection: some View {
@@ -46,14 +57,18 @@ struct PatientDetail: View {
     
     var removePatientButton: some View {
         Button(action: {
-            _ = modelData.removePatient(patient)
-            router.pop()
+            presentRemovePatientAlert = true
         }, label: {
             removePatientButtonLabel
         })
         .listRowBackground(Rectangle().fill(.clear))
         .buttonStyle(.borderedProminent)
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+    }
+    
+    func removePatientAndNavigateBack() {
+        _ = modelData.removePatient(patient)
+        router.pop()
     }
 }
 

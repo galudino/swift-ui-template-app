@@ -19,7 +19,7 @@ struct Settings: View {
         }
         .navigationTitle("Settings")
         .onDisappear {
-            loginPresentationState.loginPresented = !loginPresentationState.tabViewPresented
+            loginPresentationState.presentLoginFullScreenCover = !loginPresentationState.tabViewVisible
         }
     }
     
@@ -38,7 +38,7 @@ struct Settings: View {
         Button(action: {
             Task { @MainActor in
                 _ = try await networkService.disconnect()
-                loginPresentationState.tabViewPresented = false
+                loginPresentationState.tabViewVisible = false
             }
         }, label: {
             logOutButtonLabel

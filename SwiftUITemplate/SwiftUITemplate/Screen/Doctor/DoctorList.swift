@@ -12,7 +12,7 @@ struct DoctorList: View {
     @Environment(DoctorRouter.self) private var router
     @Environment(ModelData.self) private var modelData
     
-    @State private var presentAddDoctorModal = false
+    @State private var presentAddDoctorSheet = false
     
     @State private var isLoading = false
     @State private var isRefreshing = false
@@ -56,7 +56,7 @@ struct DoctorList: View {
                 isLoading = false
             }
         }
-        .sheet(isPresented: $presentAddDoctorModal) {
+        .sheet(isPresented: $presentAddDoctorSheet) {
             DoctorCreate()
         }
     }
@@ -89,7 +89,7 @@ struct DoctorList: View {
     
     private var addNewDoctorButton: some View {
         Button("Add New Doctor") {
-            presentAddDoctorModal.toggle()
+            presentAddDoctorSheet.toggle()
         }
     }
 }

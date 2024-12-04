@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct PatientCreate: View {
-    @Environment(PatientRouter.self) private var router
     @Environment(ModelData.self) private var modelData
+    
+    @Environment(\.dismiss) var dismiss
 
     @State private var firstNameEntered = ""
     @State private var lastNameEntered = ""
@@ -51,7 +52,7 @@ struct PatientCreate: View {
     private var confirmNewPatientButton: some View {
         Button(action: {
             modelData.addPatient(Patient(firstName: firstNameEntered, lastName: lastNameEntered, id: Int.random(in: 2000...3000)))
-            router.pop()
+            dismiss()
         }) {
             confirmNewPatientButtonLabel
         }
@@ -63,6 +64,5 @@ struct PatientCreate: View {
 
 #Preview {
     PatientCreate()
-        .environment(PatientRouter())
         .environment(ModelData(networkService: FakeNetworkService()))
 }

@@ -47,7 +47,6 @@ class PatientRouter: @preconcurrency Router {
 enum PatientRoute: @preconcurrency Route, Hashable {
     case dashboard
     case list
-    case create
     case detail(patient: Patient)
 
     @MainActor
@@ -60,8 +59,6 @@ enum PatientRoute: @preconcurrency Route, Hashable {
             PatientList()
         case let .detail(patient):
             PatientDetail(patient: patient)
-        case .create:
-            PatientCreate()
         }
     }
 }

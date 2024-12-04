@@ -10,6 +10,6 @@ import Observation
 
 @Observable
 class LoginPresentationState {
-    var loginPresented = true
-    var tabViewPresented = false
+    var presentLoginFullScreenCover = true
+    var tabViewVisible = false
 }

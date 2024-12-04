@@ -13,15 +13,20 @@ struct Login: View {
     @State private var enteredUserName = ""
     @State private var enteredPassword = ""
 
-    @State private var showAlert = false
+    @State private var presentAuthenticationAlert = false
     
     var body: some View {
-        Form {
-            textFieldSection
+        VStack {
+            Form {
+                textFieldSection
+            }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+            
             confirmLogInButton
+                .padding()
         }
         .navigationTitle("Log In")
-        .alert("Error", isPresented: $showAlert, actions: {}, message: {
+        .alert("Error", isPresented: $presentAuthenticationAlert, actions: {}, message: {
             Text("Authentication was unsuccessful. Please try again.")
         })
     }
@@ -31,7 +36,7 @@ struct Login: View {
     }
 
     private var textFieldSection: some View {
-        return Section(content: {
+        Section(content: {
             TextField("User Name", text: $enteredUserName)
             SecureField("Password", text: $enteredPassword)
         }, header: {
@@ -42,13 +47,9 @@ struct Login: View {
     }
 
     private var confirmLogInLabel: some View {
-        HStack {
-            HStack {
-                Text("Log In")
-            }
+        Text("Log In")
             .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
             .frame(maxWidth: .infinity)
-        }
     }
 
     private var confirmLogInButton: some View {
@@ -63,7 +64,6 @@ struct Login: View {
                    confirmLogInLabel
                })
                .buttonStyle(.borderedProminent)
-               .listRowBackground(Rectangle().fill(.clear))
                .disabled(!allFieldsFilled)
     }
 }
