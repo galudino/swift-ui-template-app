@@ -45,12 +45,6 @@ extension RouterProtocol {
 class Router<T: Route>: @preconcurrency RouterProtocol {
     var routes: [T] = []
     
-    @MainActor
-    @ViewBuilder
-    func navigate(to route: T) -> some View {
-        route.destination
-    }
-    
     func push(_ route: T) {
         routes.append(route)
     }
