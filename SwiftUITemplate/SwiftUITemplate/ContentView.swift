@@ -12,7 +12,6 @@ struct ContentView: View {
     @Environment(LoginPresentationState.self) private var loginPresentationState
 
     @State private var selection: TabSelection?
-    @State private var username = ""
     
     var body: some View {
         if loginPresentationState.tabViewVisible {
@@ -35,8 +34,8 @@ struct ContentView: View {
     private var loginNavigationStack: some View {
         @Bindable var loginPresentationState = loginPresentationState
         
-        return EmptyView()
-        .fullScreenCover(isPresented: $loginPresentationState.presentLoginFullScreenCover) {
+        return VStack { }
+            .fullScreenCover(isPresented: $loginPresentationState.presentLoginFullScreenCover) {
             LoginNavigationStack()
         }
     }
