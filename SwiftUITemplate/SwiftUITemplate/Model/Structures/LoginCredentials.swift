@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LoginCredentials: Hashable {
+struct LoginCredentials: Decodable, Hashable {
     var userName: String
     var password: String
 }

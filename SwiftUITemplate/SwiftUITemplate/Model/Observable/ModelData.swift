@@ -5,6 +5,7 @@
 //  Created by Gemuele Aludino on 12/2/24.
 //
 
+import Foundation
 import SwiftUI
 
 // MARK: - ModelData
@@ -13,26 +14,11 @@ import SwiftUI
 class ModelData {
     var patients: [Patient] = []
     var doctors: [Doctor] = []
-
-    init() {
-        loadPatients()
-        loadDoctors()
-    }
-
-    private func loadPatients() {
-        #if targetEnvironment(simulator)
-            patients = Patient.previews
-        #else
-            // Load real assets
-        #endif
-    }
-
-    private func loadDoctors() {
-        #if targetEnvironment(simulator)
-            doctors = Doctor.previews
-        #else
-            // Load real assets
-        #endif
+    
+    private var networkService: NetworkServiceProtocol
+    
+    init(networkService: NetworkServiceProtocol) {
+        self.networkService = networkService
     }
 }
 

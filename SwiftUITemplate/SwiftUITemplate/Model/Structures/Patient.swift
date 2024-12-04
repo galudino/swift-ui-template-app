@@ -15,7 +15,7 @@ struct Patient: Codable, Hashable, Identifiable {
     
     init(firstName: String,
          lastName: String,
-         id: Int = Int.random(in: 0 ... 1000)) {
+         id: Int) {
         self.firstName = firstName
         self.lastName = lastName
         self.id = id

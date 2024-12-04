@@ -5,6 +5,7 @@
 //  Created by Gemuele Aludino on 12/3/24.
 //
 
+import Foundation
 import Observation
 
 @Observable
@@ -39,8 +40,44 @@ class FakeNetworkService: NetworkServiceProtocol {
     
     @MainActor
     private func fakeEvaluateCredentials(_ credentials: LoginCredentials) async throws -> Bool {
-        try await Task.sleep(for: .seconds(0.5))
         /// Only one account/password combination works for this app. It's just a demo!
-        return credentials.userName == "Admin" && credentials.password == "1234"
+        let validCredentials = LoginCredentials(userName: "Admin", password: "1234")
+        return credentials == validCredentials
+    }
+}
+
+extension FakeNetworkService {
+    @MainActor
+    func fetchDoctors() async throws -> [Doctor] {
+        try await Task.sleep(for: .seconds(0.5))
+        return load("doctors.json")
+    }
+    
+    @MainActor
+    func fetchPatients() async throws -> [Patient] {
+        try await Task.sleep(for: .seconds(0.5))
+        return load("patients.json")
+    }
+}
+
+fileprivate func load<T: Decodable>(_ filename: String) -> T {
+    let data: Data
+
+    guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
+    else {
+        fatalError("Couldn't find \(filename) in main bundle.")
+    }
+
+    do {
+        data = try Data(contentsOf: file)
+    } catch {
+        fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
+    }
+
+    do {
+        let decoder = JSONDecoder()
+        return try decoder.decode(T.self, from: data)
+    } catch {
+        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
     }
 }

@@ -1,0 +1,32 @@
+[
+    {
+        "firstName": "Gregory",
+        "lastName": "House",
+        "department": "Diagnostics"
+    },
+    {
+        "firstName": "James",
+        "lastName": "Wilson",
+        "department": "Oncology"
+    },
+    {
+        "firstName": "Eric",
+        "lastName": "Foreman",
+        "department": "Diagnostics"
+    },
+    {
+        "firstName": "Robert",
+        "lastName": "Chase",
+        "department": "Diagnostics"
+    },
+    {
+        "firstName": "Allison",
+        "lastName": "Cameron",
+        "department": "Emergency Room"
+    },
+    {
+        "firstName": "Andre", 
+        "lastName": "Youssouf",
+        "department": "Addiction"
+    },
+]

@@ -71,5 +71,5 @@ struct DoctorCreate: View {
 #Preview {
     DoctorCreate()
         .environment(DoctorRouter())
-        .environment(ModelData())
+        .environment(ModelData(networkService: FakeNetworkService()))
 }

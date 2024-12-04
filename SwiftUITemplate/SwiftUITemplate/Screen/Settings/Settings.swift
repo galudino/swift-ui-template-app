@@ -37,7 +37,7 @@ struct Settings: View {
     private var logOutButton: some View {
         Button(action: {
             Task { @MainActor in
-                try await networkService.disconnect()
+                _ = try await networkService.disconnect()
                 loginPresentationState.tabViewPresented = false
             }
         }, label: {

@@ -73,11 +73,10 @@ struct Connecting: View {
             connectingState = .connecting
 
             Task { @MainActor in
-                let (status, credentials) = try await networkService.connect(withCredentials: enteredLoginCredentials)
+                let (status, _) = try await networkService.connect(withCredentials: enteredLoginCredentials)
 
-                if status == .authenticated, let credentials {
+                if status == .authenticated {
                     connectingState = .successful
-                    loginPresentationState.credentials = credentials
                 } else if status == .connectedButUnauthenticated {
                     connectingState = .error
                 }
@@ -109,7 +108,7 @@ struct Connecting: View {
 }
 
 #Preview {
-    Connecting(credentials: LoginCredentials.previews[0])
+    Connecting(credentials: LoginCredentials(userName: "Admin", password: "1234"))
         .environment(FakeNetworkService())
         .environment(LoginPresentationState())
         .environment(LoginRouter())

@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct DoctorList: View {
+    @Environment(FakeNetworkService.self) private var networkService
     @Environment(DoctorRouter.self) private var router
     @Environment(ModelData.self) private var modelData
     
     @State private var presentAddDoctorModal = false
+    
+    @State private var isLoading = false
+    @State private var isRefreshing = false
+    
+    @State private var doLoad = true
 
     var body: some View {
         VStack {
-            doctorList
+            if isLoading && !isRefreshing {
+                ProgressView()
+                Text("Please wait...")
+            } else {
+                doctorList
+            }
         }
         .navigationTitle("Doctor List")
         .toolbar {
@@ -24,7 +35,26 @@ struct DoctorList: View {
             }
         }
         .onAppear {
-            modelData.doctors.sort(by: { $0.lastName < $1.lastName })
+            if doLoad {
+                Task { @MainActor in
+                    isLoading = true
+                    modelData.doctors = try await networkService.fetchDoctors()
+                    modelData.doctors.sort(by: { $0.lastName < $1.lastName })
+                    isLoading = false
+                }
+            }
+        }
+        .refreshable {
+            Task { @MainActor in
+                isLoading = true
+                isRefreshing = true
+                
+                modelData.doctors = try await networkService.fetchDoctors()
+                modelData.doctors.sort(by: { $0.lastName < $1.lastName })
+               
+                isRefreshing = false
+                isLoading = false
+            }
         }
         .sheet(isPresented: $presentAddDoctorModal) {
             DoctorCreate()
@@ -38,6 +68,8 @@ struct DoctorList: View {
                     if let doctors = modelData.doctorsGroupedByDepartmentSortedByLastNameAscending[header] {
                         ForEach(doctors) { doctor in
                             Button("\(doctor.lastName), \(doctor.firstName)") {
+                                /// Ensures we don't load again when navigating back
+                                doLoad = false
                                 router.push(.detail(doctor: doctor))
                             }
                         }
@@ -64,6 +96,7 @@ struct DoctorList: View {
 
 #Preview {
     DoctorList()
+        .environment(FakeNetworkService())
         .environment(DoctorRouter())
-        .environment(ModelData())
+        .environment(ModelData(networkService: FakeNetworkService()))
 }

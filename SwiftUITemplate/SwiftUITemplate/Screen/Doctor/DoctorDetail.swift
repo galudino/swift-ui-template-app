@@ -59,7 +59,7 @@ struct DoctorDetail: View {
 }
 
 #Preview {
-    DoctorDetail(doctor: Doctor.previews[0])
+    DoctorDetail(doctor: Doctor(firstName: "Gregory", lastName: "House", department: "Diagnostics"))
         .environment(DoctorRouter())
-        .environment(ModelData())
+        .environment(ModelData(networkService: FakeNetworkService()))
 }

@@ -10,8 +10,6 @@ import Observation
 
 @Observable
 class LoginPresentationState {
-    var credentials = LoginCredentials(userName: "", password: "")
-    
     var loginPresented = true
     var tabViewPresented = false
 }

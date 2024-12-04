@@ -50,7 +50,7 @@ struct PatientCreate: View {
     
     private var confirmNewPatientButton: some View {
         Button(action: {
-            modelData.addPatient(Patient(firstName: firstNameEntered, lastName: lastNameEntered))
+            modelData.addPatient(Patient(firstName: firstNameEntered, lastName: lastNameEntered, id: Int.random(in: 2000...3000)))
             router.pop()
         }) {
             confirmNewPatientButtonLabel
@@ -64,5 +64,5 @@ struct PatientCreate: View {
 #Preview {
     PatientCreate()
         .environment(PatientRouter())
-        .environment(ModelData())
+        .environment(ModelData(networkService: FakeNetworkService()))
 }
