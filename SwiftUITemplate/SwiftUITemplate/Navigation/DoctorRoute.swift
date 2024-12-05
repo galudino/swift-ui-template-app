@@ -1,5 +1,5 @@
 //
-//  DoctorNavigationStack.swift
+//  DoctorRoute.swift
 //  SwiftUITemplate
 //
 //  Created by Gemuele Aludino on 11/27/24.
@@ -7,24 +7,16 @@
 
 import SwiftUI
 
-struct DoctorNavigationStack: View {
-    @State private var router = Router<DoctorRoute>()
-
-    var body: some View {
-        NavigationStack(path: $router.routes) {
-            router.navigate(to: .dashboard)
-                .navigationDestination(for: DoctorRoute.self) { route in
-                    router.navigate(to: route)
-                }
-        }
-        .environment(router)
-    }
-}
-
 enum DoctorRoute: @preconcurrency Route, Hashable {
     case dashboard
     case list
     case detail(doctor: Doctor)
+    
+    @MainActor
+    @ViewBuilder
+    static var rootView: some View {
+        DoctorDashboard()
+    }
     
     @MainActor
     @ViewBuilder

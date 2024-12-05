@@ -34,11 +34,11 @@ enum TabSelection: Hashable, Identifiable, CaseIterable {
     var navigationStack: some View {
         switch self {
         case .patientDashboard:
-            PatientNavigationStack()
+            NavigationStackView<PatientRoute>()
         case .doctorDashboard:
-            DoctorNavigationStack()
+            NavigationStackView<DoctorRoute>()
         case .settings:
-            SettingsNavigationStack()
+            NavigationStackView<SettingsRoute>()
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  RouterProtocol.swift
+//  Router.swift
 //  SwiftUITemplate
 //
 //  Created by Gemuele Aludino on 12/2/24.
@@ -8,8 +8,11 @@
 import SwiftUI
 
 protocol Route: Hashable {
-    associatedtype V: View
-    var destination: V { get }
+    associatedtype DestinationView: View
+    associatedtype RootView: View
+    
+    static var rootView: RootView { get }
+    var destination: DestinationView { get }
 }
 
 @preconcurrency
@@ -44,6 +47,8 @@ extension RouterProtocol {
 @Observable
 class Router<T: Route>: @preconcurrency RouterProtocol {
     var routes: [T] = []
+    
+    var invokeAlert: Bool = false
     
     func push(_ route: T) {
         routes.append(route)

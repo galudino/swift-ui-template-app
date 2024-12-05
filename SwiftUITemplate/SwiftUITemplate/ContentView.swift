@@ -36,7 +36,7 @@ struct ContentView: View {
         
         return VStack { }
             .fullScreenCover(isPresented: $loginPresentationState.presentLoginFullScreenCover) {
-            LoginNavigationStack()
+                NavigationStackView<LoginRoute>()
         }
     }
 }
